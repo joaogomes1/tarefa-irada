@@ -2,10 +2,13 @@ package com.example.agenda;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -19,6 +22,7 @@ public class MainActivity extends AppCompatActivity {
     TextView dayTextView;
     Button previousDay;
     Button nextDay;
+    FloatingActionButton openNewTaskActivity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
         previousDay = findViewById(R.id.previousDay);
         dayTextView = findViewById(R.id.dayTextView);
         nextDay = findViewById(R.id.nextDay);
+        openNewTaskActivity = findViewById(R.id.addTask);
 
         // set previousDay text to "<"
         previousDay.setText("<");
@@ -38,6 +43,15 @@ public class MainActivity extends AppCompatActivity {
         changeDate(dayTextView);
         // set nextDay text to ">"
         nextDay.setText(">");
+        // set onclick function
+        openNewTaskActivity.setOnClickListener(
+                new View.OnClickListener() {
+                    public void onClick(View view) {
+                        Intent intent = new Intent(MainActivity.this, AddTask.class);
+                        startActivity(intent);
+                    }
+                }
+            );
     }
 
     public void goToNextDay(View view) {
@@ -52,8 +66,6 @@ public class MainActivity extends AppCompatActivity {
         currentOffset--;
         changeDate(dayTextView);
     }
-
-    // Dialog: https://developer.android.com/guide/topics/ui/dialogs?hl=pt-br#CustomLayout
 
     protected void changeDate(TextView dayTextView) {
         // Date object
