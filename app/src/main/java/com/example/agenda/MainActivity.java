@@ -15,6 +15,12 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
+/*
+ * Modelo banco de dados
+ *
+ *
+ */
+
 public class MainActivity extends AppCompatActivity {
     // days offset from today
     int currentOffset;
@@ -23,6 +29,7 @@ public class MainActivity extends AppCompatActivity {
     Button previousDay;
     Button nextDay;
     FloatingActionButton openNewTaskActivity;
+    FloatingActionButton goToToday;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
         dayTextView = findViewById(R.id.dayTextView);
         nextDay = findViewById(R.id.nextDay);
         openNewTaskActivity = findViewById(R.id.addTask);
+        goToToday = findViewById(R.id.goToToday);
 
         // set previousDay text to "<"
         previousDay.setText("<");
@@ -52,12 +60,20 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
             );
+        // go to today
+        goToToday.setOnClickListener(
+                new View.OnClickListener() {
+                    public void onClick(View view) {
+                        currentOffset = 0;
+                        changeDate(dayTextView);
+                    }
+                }
+        );
     }
 
     public void goToNextDay(View view) {
         // increment currentOffset by one
         currentOffset++;
-        // change date
         changeDate(dayTextView);
     }
 
@@ -89,5 +105,10 @@ public class MainActivity extends AppCompatActivity {
         String date_string = simpleDateFormat.format(date);
         // set dayTextView text to new date
         dayTextView.setText(date_string);
+        // change floating button to visible if today
+        if (currentOffset == 0)
+            goToToday.setVisibility(View.INVISIBLE);
+        else
+            goToToday.setVisibility(View.VISIBLE);
     }
 }

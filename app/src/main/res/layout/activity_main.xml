@@ -8,14 +8,19 @@
 
     <Button
         android:id="@+id/previousDay"
-        android:layout_width="47dp"
-        android:layout_height="44dp"
+        android:layout_width="50dp"
+        android:layout_height="51dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
+        android:background="@android:color/transparent"
+        android:backgroundTint="#00D66565"
         android:onClick="goToPreviousDay"
         android:text="P"
+        android:textColor="#000000"
+        android:textSize="24sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:strokeColor="#00000000" />
 
     <TextView
         android:id="@+id/dayTextView"
@@ -23,21 +28,22 @@
         android:layout_height="wrap_content"
         android:text="Dia"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBaseline_toBaselineOf="@+id/nextDay"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.042" />
+        app:layout_constraintRight_toRightOf="parent" />
 
     <Button
         android:id="@+id/nextDay"
-        android:layout_width="47dp"
-        android:layout_height="44dp"
+        android:layout_width="50dp"
+        android:layout_height="51dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
+        android:background="@android:color/transparent"
         android:onClick="goToNextDay"
         android:text="N"
+        android:textColor="#000000"
+        android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -51,5 +57,16 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:srcCompat="@android:drawable/ic_input_add" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/goToToday"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:clickable="true"
+        app:layout_constraintBottom_toTopOf="@+id/addTask"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:srcCompat="@drawable/ic_icons8_home" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
