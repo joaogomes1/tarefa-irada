@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">Agenda</string>
+    <string name="new_task">Adicionar nova tarefa</string>
+    <string name="today">Hoje</string>
+    <string name="new_task_title">Adicionar tarefa</string>
+    <string name="button_add">Adicionar</string>
+    <string name="button_cancel">Cancelar</string>
+    <string name="description_hint">Descrição da tarefa</string>
 </resources>
