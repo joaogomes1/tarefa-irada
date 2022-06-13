@@ -1,82 +1,83 @@
 package com.example.agenda;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import android.content.ContentValues;
+import android.content.Context;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteOpenHelper;
 
-public class Database {
-    Connection conn;
-    Statement stmt;
+import androidx.annotation.Nullable;
 
-    Database() {
-        conn = null;
+public class Database extends SQLiteOpenHelper {
 
-        try {
-            // conseguir caminho para o arquivo de banco de dados
-            Class.forName("org.sqlite.JDBC");
-            conn = DriverManager.getConnection("jdbc:sqlite://android_asset/agenda.db");
+    private static final int DB_VERSION = 1;
+    private static final String DB_NAME = "db_agenda";
+    private static final String DB_TABLE = "agenda";
+    private static final String DESC_COLUMN = "description";
 
-            stmt = conn.createStatement();
-            stmt.setQueryTimeout(30);
-
-            // creates table
-            String create_table = "CREATE TABLE IF NOT EXISTS agenda " +
-                    "( id INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                    "  description TEXT NOT NULL);";
-            stmt.executeUpdate(create_table);
-        } catch (SQLException | ClassNotFoundException e) {
-            // exception with sqlite
-            System.err.println(e.getClass().getName() + ": " + e.getMessage());
-        }
+    public Database(@Nullable Context context) {
+        super(context, DB_NAME, null, DB_VERSION);
     }
 
-    public int executeQuery(String query) {
-        System.out.println(query);
-        try {
-            stmt.executeUpdate(query);
-        } catch (SQLException e) {
-            // exception with sqlite
-            System.err.println(e.getClass().getName() + ": " + e.getMessage());
-            return -1;
-        }
-        return 0;
+    @Override
+    public void onCreate(SQLiteDatabase db) {
+        String query_table = "CREATE TABLE IF NOT EXISTS " + DB_TABLE + " ( "
+                + "id INTEGER PRIMARY KEY AUTOINCREMENT, "
+                + DESC_COLUMN + " TEXT NOT NULL );";
+        db.execSQL(query_table);
     }
 
-    public String[] readQuery(String query) {
-        // get total items in the database
-        int size = 0;
-        int count = 0;
+    @Override
+    public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) { }
 
-        // empty array to return on errors
-        String[] empty = {};
+    public Task[] getTasks() {
+        SQLiteDatabase db = this.getWritableDatabase();
+        // query
+        Cursor cursor = db.query(
+                DB_TABLE, new String[] {"id", DESC_COLUMN},
+                null, null, null, null, null
+        );
+        // put values in classes
+        if (cursor != null) {
+            // iteration count
+            int count = 0;
+            // total rows in table
+            int total = cursor.getCount();
+            // create array
+            Task[] tasks = new Task[total];
+            // move to first row
+            cursor.moveToFirst();
 
-        try {
-            ResultSet rs = stmt.executeQuery("SELECT COUNT(id) FROM agenda;");
-            if (rs != null) {
-                rs.last();          // moves cursor to the last row
-                size = rs.getRow(); // get row id
-            }
-        } catch (SQLException e) {
-            // exception with sqlite
-            System.err.println(e.getClass().getName() + ": " + e.getMessage());
-            return empty;
+            do {
+                // put select results in a class each
+                tasks[count] = new Task(
+                        Integer.parseInt(cursor.getString(0)), cursor.getString(1)
+                );
+                count++;
+            } while (cursor.moveToNext());
+            // return values
+            return tasks;
         }
-
-        String[] ra = new String[size];
-
-        try {
-            ResultSet result = stmt.executeQuery(query);
-            while (result.next()) {
-                ra[count] = result.getString("description");
-                ++count;
-            }
-        } catch (SQLException e) {
-            // exception with sqlite
-            System.err.println(e.getClass().getName() + ": " + e.getMessage());
-            return empty;
-        }
-        return ra;
+        return null;
     }
+
+    public void addTask(String description) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        // insert values
+        ContentValues values = new ContentValues();
+        values.put(DESC_COLUMN, description);
+        // insert new task
+        db.insert(DB_TABLE, null, values);
+        // closes database
+        db.close();
+    }
+
+    public void deleteTask(int id) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        // delete task
+        db.delete(DB_TABLE, "id = ?", new String[] { String.valueOf(id) });
+        // closes database
+        db.close();
+    }
+
 }

@@ -13,6 +13,8 @@ public class AddTask extends AppCompatActivity {
     EditText task;
     Button confirm;
     Button cancel;
+    // Database instance
+    Database db = new Database(this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,15 +33,14 @@ public class AddTask extends AppCompatActivity {
                 String description = task.getText().toString().trim();
                 if (description.isEmpty()) {
                     Toast.makeText(
-                            AddTask.this, "Adicione uma descrição", Toast.LENGTH_SHORT
+                            AddTask.this, R.string.add_description_toast, Toast.LENGTH_SHORT
                     ).show();
                     return;
                 }
-                String query = "INSERT INTO agenda (description) VALUES (" + description + ");";
                 // insert value into database
-                Database db = new Database();
-                // db.executeQuery(query);
-                // close activity
+                db.addTask(description);
+                // close activity with result ok
+                setResult(RESULT_OK);
                 finish();
             }
         });
@@ -48,6 +49,8 @@ public class AddTask extends AppCompatActivity {
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                // close activity with result canceled
+                setResult(RESULT_CANCELED);
                 finish();
             }
         });
@@ -55,6 +58,8 @@ public class AddTask extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
+        // close activity with result canceled
+        setResult(RESULT_CANCELED);
         finish();
     }
 }

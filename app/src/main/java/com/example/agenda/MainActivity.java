@@ -1,7 +1,13 @@
 package com.example.agenda;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -17,6 +23,8 @@ public class MainActivity extends AppCompatActivity {
     // main activity widgets
     TextView todayTextView;
     FloatingActionButton openNewTaskActivity;
+    // Database instance
+    Database db = new Database(this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,18 +37,20 @@ public class MainActivity extends AppCompatActivity {
 
         // load today's date to todayTextView
         changeDate(todayTextView);
+        // print all tasks
+        printTasks();
         // set onclick function
         openNewTaskActivity.setOnClickListener(
                 new View.OnClickListener() {
                     public void onClick(View view) {
                         Intent intent = new Intent(MainActivity.this, AddTask.class);
-                        startActivity(intent);
+                        reloadList.launch(intent);
                     }
                 }
             );
     }
 
-    protected void changeDate(TextView todayTextView) {
+    protected void changeDate(@NonNull TextView todayTextView) {
         // Date object
         Date date = new Date();
         // todayTextView string patter
@@ -52,4 +62,23 @@ public class MainActivity extends AppCompatActivity {
         // set todayTextView text to new date
         todayTextView.setText(date_string);
     }
+
+    protected void printTasks() {
+        Task[] tasks = db.getTasks();
+        for (Task task : tasks) {
+            System.out.println("[" + task.getId() + "] " + task.getDesc());
+        }
+    }
+
+    ActivityResultLauncher<Intent> reloadList = registerForActivityResult(
+        new ActivityResultContracts.StartActivityForResult(),
+        new ActivityResultCallback<ActivityResult>() {
+            @Override
+            public void onActivityResult(ActivityResult result) {
+                if (result.getResultCode() == Activity.RESULT_OK) {
+                    // reload list with tasks
+                    printTasks();
+                }
+            }
+        });
 }
