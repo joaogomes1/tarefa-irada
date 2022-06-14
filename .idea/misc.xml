@@ -7,8 +7,14 @@
         <entry key="..\:/Users/0040482111022/AndroidStudioProjects/Agenda/app/src/main/res/layout/activity_main.xml" value="0.3188405797101449" />
         <entry key="..\:/Users/0040482111022/AndroidStudioProjects/tarefa-irada/app/src/main/res/layout/activity_add_task.xml" value="0.3188405797101449" />
         <entry key="..\:/Users/0040482111022/AndroidStudioProjects/tarefa-irada/app/src/main/res/layout/activity_main.xml" value="0.25" />
+        <entry key="app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.3405" />
+        <entry key="app/src/main/res/drawable/ic_icons8_home.xml" value="0.3405" />
+        <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.3405" />
+        <entry key="app/src/main/res/layout-v26/task_item.xml" value="0.3671875" />
         <entry key="app/src/main/res/layout/activity_add_task.xml" value="0.36822916666666666" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.36822916666666666" />
+        <entry key="app/src/main/res/layout/task_item.xml" value="0.25" />
+        <entry key="app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.3405" />
       </map>
     </option>
   </component>

@@ -22,9 +22,9 @@ public class AddTask extends AppCompatActivity {
         setContentView(R.layout.activity_add_task);
 
         // attribute ids to the widgets
-        task = (EditText)findViewById(R.id.taskEditText);
-        confirm = (Button)findViewById(R.id.confirmTaskButton);
-        cancel = (Button)findViewById(R.id.cancelTaskButton);
+        task = findViewById(R.id.taskEditText);
+        confirm = findViewById(R.id.confirmTaskButton);
+        cancel = findViewById(R.id.cancelTaskButton);
 
         // set onclick function for confirm
         confirm.setOnClickListener(new View.OnClickListener() {
