@@ -8,4 +8,8 @@
     <string name="button_cancel">Cancelar</string>
     <string name="description_hint">Descrição da tarefa</string>
     <string name="add_description_toast">Adicione uma descrição</string>
+    <string name="delete_dialog_message">Apagar tarefa?</string>
+    <string name="positive_button_dialog">Sim</string>
+    <string name="negative_button_dialog">Não</string>
+    <string name="deleted_task_toast">Tarefa \"%1$s\" apagada</string>
 </resources>

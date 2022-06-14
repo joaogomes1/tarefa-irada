@@ -7,4 +7,8 @@
     <string name="button_cancel">Cancel</string>
     <string name="description_hint">Task description</string>
     <string name="add_description_toast">Add a description</string>
+    <string name="delete_dialog_message">Delete task?</string>
+    <string name="positive_button_dialog">Yes</string>
+    <string name="negative_button_dialog">No</string>
+    <string name="deleted_task_toast">Deleted task \'%1$s\'</string>
 </resources>

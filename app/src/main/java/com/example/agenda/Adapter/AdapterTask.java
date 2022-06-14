@@ -1,12 +1,15 @@
 package com.example.agenda.Adapter;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -54,7 +57,27 @@ public class AdapterTask extends RecyclerView.Adapter<AdapterTask.TaskViewHolder
         holder.delete.setOnClickListener(
                 new View.OnClickListener() {
                     public void onClick(View view) {
-                        new Database(context).deleteTask(task.getId());
+                        // instantiate builder
+                        AlertDialog.Builder dialog = new AlertDialog.Builder(context);
+                        // set message for dialog
+                        dialog.setMessage(R.string.delete_dialog_message);
+                        // set icon
+                        dialog.setIcon(android.R.drawable.ic_dialog_alert);
+                        // set "yes" button
+                        dialog.setPositiveButton(R.string.positive_button_dialog, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                // delete item from database
+                                new Database(context).deleteTask(task.getId());
+                                // make toast
+                                String toastResource = context.getResources().getString(R.string.deleted_task_toast);
+                                String toastMessage = String.format(toastResource, task.getDesc());
+                                Toast.makeText(context, toastMessage, Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                        // set "no" button
+                        dialog.setNegativeButton(R.string.negative_button_dialog, null);
+                        dialog.show();
                     }
                 }
         );

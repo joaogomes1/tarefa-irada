@@ -77,9 +77,9 @@ public class MainActivity extends AppCompatActivity {
         todayTextView.setText(date_string);
     }
 
-    protected void loadTasks() {
+    public void loadTasks() {
         // instantiate adapterTask with new values from the database
-        adapterTask = new AdapterTask(this, db.getTasks());
+        adapterTask = new AdapterTask(MainActivity.this, db.getTasks());
         // set new adapter for taskRecyclerView
         taskRecyclerView.setAdapter(adapterTask);
     }
