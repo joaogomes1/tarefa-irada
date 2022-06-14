@@ -52,8 +52,7 @@ public class AdapterTask extends RecyclerView.Adapter<AdapterTask.TaskViewHolder
                         // update done in task class
                         task.setDone(done);
                     }
-                }
-        );
+                });
         holder.delete.setOnClickListener(
                 new View.OnClickListener() {
                     public void onClick(View view) {
@@ -61,8 +60,6 @@ public class AdapterTask extends RecyclerView.Adapter<AdapterTask.TaskViewHolder
                         AlertDialog.Builder dialog = new AlertDialog.Builder(context);
                         // set message for dialog
                         dialog.setMessage(R.string.delete_dialog_message);
-                        // set icon
-                        dialog.setIcon(android.R.drawable.ic_dialog_alert);
                         // set "yes" button
                         dialog.setPositiveButton(R.string.positive_button_dialog, new DialogInterface.OnClickListener() {
                             @Override
@@ -73,14 +70,17 @@ public class AdapterTask extends RecyclerView.Adapter<AdapterTask.TaskViewHolder
                                 String toastResource = context.getResources().getString(R.string.deleted_task_toast);
                                 String toastMessage = String.format(toastResource, task.getDesc());
                                 Toast.makeText(context, toastMessage, Toast.LENGTH_SHORT).show();
+                                // set widgets visibility to be GONE (invisible and does not occupy space)
+                                holder.done.setVisibility(View.GONE);
+                                holder.description.setVisibility(View.GONE);
+                                holder.delete.setVisibility(View.GONE);
                             }
                         });
                         // set "no" button
                         dialog.setNegativeButton(R.string.negative_button_dialog, null);
                         dialog.show();
                     }
-                }
-        );
+                });
     }
 
     @Override
