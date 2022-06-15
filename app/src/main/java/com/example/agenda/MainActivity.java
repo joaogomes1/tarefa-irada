@@ -77,18 +77,11 @@ public class MainActivity extends AppCompatActivity {
         todayTextView.setText(date_string);
     }
 
-    public void loadTasks() {
+    protected void loadTasks() {
         // instantiate adapterTask with new values from the database
-        adapterTask = new AdapterTask(MainActivity.this, db.getTasks());
+        adapterTask = new AdapterTask(this, db.getTasks());
         // set new adapter for taskRecyclerView
         taskRecyclerView.setAdapter(adapterTask);
-    }
-
-    protected void printTasks() {
-        Task[] tasks = db.getTasks();
-        for (Task task : tasks) {
-            System.out.println("[" + task.getId() + "] (" + task.getDone() + "): " + task.getDesc());
-        }
     }
 
     ActivityResultLauncher<Intent> reloadList = registerForActivityResult(
@@ -99,8 +92,6 @@ public class MainActivity extends AppCompatActivity {
                     if (result.getResultCode() == Activity.RESULT_OK) {
                         // reload list with tasks
                         loadTasks();
-                        // print tasks to console
-                        // printTasks();
                     }
                 }
             });
